@@ -3,7 +3,6 @@
 import urllib.request
 import re
 import argparse
-import sys
 
 url = 'http://whatthecommit.com/'
 messageRegexp = "content.*<p>(.+?)..</p>"
