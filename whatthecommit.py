@@ -3,36 +3,38 @@
 import urllib.request
 import re
 import argparse
-
 url = 'http://whatthecommit.com/'
 
-def html():
+def getCommit():
     request = urllib.request.Request(url)
     try:
         opener = urllib.request.urlopen(request, timeout=10)
     except urllib.error.URLError as e:
         print(e.reason)
     html = opener.read()
-    return html
+
+    regexp = {
+        'msg': 'content.*<p>(.+?)..</p>',
+        'link': 'permalink.*href."/([a-z0-9]*)">permalink'
+    }
+    grep = {
+        'commit' : re.findall(regexp['msg'], str(html))[0],
+        'link' : url + re.findall(regexp['link'], str(html))[0]
+    }
+
+    args = flags()
+    out = grep['commit'].replace('\\', '')
+    if args.verbose:
+        out = ( out + '\n' 
+                + grep['link'])
+    return out
+
 
 def flags(): # CLI ARGUMENTS
-    messageRegexp = "content.*<p>(.+?)..</p>"
-    linkRegexp = 'permalink.*href."/([a-z0-9]*)">permalink'
-    message = re.findall(messageRegexp, str(html()))[0]
-    message = '\n' + message
-    link = re.findall(linkRegexp, str(html()))[0]
-    link = url + link
-
     parser = argparse.ArgumentParser()
-    
-    # FLAGS
-    parser.add_argument('-o', '--only', help='show only message', action='store_true')
-
+    parser.add_argument('-v', '--verbose', help='Include refLink to commit message.', action='store_true')
     args = parser.parse_args()
-    # LOCAL IP
-    if args.only:
-        print(message)
-    else:
-        print(message)
-        print(link)
-flags()
+    return args
+
+print(getCommit())
+
