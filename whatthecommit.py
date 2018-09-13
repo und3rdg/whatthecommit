@@ -9,19 +9,21 @@ url = 'http://whatthecommit.com/'
 messageRegexp = "content.*<p>(.+?)..</p>"
 linkRegexp = 'permalink.*href."/([a-z0-9]*)">permalink'
 
-request = urllib.request.Request(url)
-try:
-    opener = urllib.request.urlopen(request, timeout=10)
-except urllib.error.URLError as e:
-    print(e.reason)
-html = opener.read()
-
-message = re.findall(messageRegexp, str(html))[0]
-link = re.findall(linkRegexp, str(html))[0]
-link = url + link
-
+def html():
+    request = urllib.request.Request(url)
+    try:
+        opener = urllib.request.urlopen(request, timeout=10)
+    except urllib.error.URLError as e:
+        print(e.reason)
+    html = opener.read()
+    return html
 
 def flags(): # CLI ARGUMENTS
+    message = re.findall(messageRegexp, str(html()))[0]
+    message = '\n' + message
+    link = re.findall(linkRegexp, str(html()))[0]
+    link = url + link
+
     parser = argparse.ArgumentParser()
     
     # FLAGS
