@@ -5,8 +5,6 @@ import re
 import argparse
 
 url = 'http://whatthecommit.com/'
-messageRegexp = "content.*<p>(.+?)..</p>"
-linkRegexp = 'permalink.*href."/([a-z0-9]*)">permalink'
 
 def html():
     request = urllib.request.Request(url)
@@ -18,6 +16,8 @@ def html():
     return html
 
 def flags(): # CLI ARGUMENTS
+    messageRegexp = "content.*<p>(.+?)..</p>"
+    linkRegexp = 'permalink.*href."/([a-z0-9]*)">permalink'
     message = re.findall(messageRegexp, str(html()))[0]
     message = '\n' + message
     link = re.findall(linkRegexp, str(html()))[0]
