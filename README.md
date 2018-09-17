@@ -12,5 +12,5 @@
 
     git commit -m "`whatthecommit`"
 
-####Inspired by
+#### Inspired by
  http://whatthecommit.com 
