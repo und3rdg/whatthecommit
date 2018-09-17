@@ -6,10 +6,11 @@
 
     git clone https://github.com/und3rdg/whatthecommit.git
     cd whatthecommit
-    ls -s whatthecommit.py /usr/bin/whatthecommit.py
+    ln -s whatthecommit /usr/bin/whatthecommit.py
 
 ### Usage
 
-    git commit -m "`whatthecommit.py`"
+    git commit -m "`whatthecommit`"
 
-#### http://whatthecommit.com 
+####Inspired by
+ http://whatthecommit.com 
